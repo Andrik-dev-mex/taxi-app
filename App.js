@@ -1,19 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button } from "react-native-elements";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigation } from "@react-navigation/stack";
-
-const Stack = createStackNavigation();
+import NavigationApp from "./NavigationApp";
+import firebase from "./config/database";
 
 export default function App() {
+
+  const [user, setUser ] = useState(null);
+
+  useEffect(() => {
+    firebase.auth.onAuthStateChanged(DataSnapshot => {
+      console.log(DataSnapshot.val());
+    });
+  },[]);
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="login" />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <NavigationApp/>
   );
 }
 
