@@ -9,9 +9,7 @@ export default function App() {
   const [user, setUser ] = useState(null);
 
   useEffect(() => {
-    firebase.auth.onAuthStateChanged(DataSnapshot => {
-      console.log(DataSnapshot.val());
-    });
+    
   },[]);
 
   return (
