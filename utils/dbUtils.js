@@ -1,6 +1,6 @@
 import firebase from "firebase";
 
-export function loadUser() {
+export function loadUser(uid) {
   return new Promise((resolve, reject) => {
     firebase
       .database()
@@ -18,7 +18,7 @@ export function loadUser() {
             .getDownloadURL()
             .then(
               (url) => {
-                //aqui se actuliza el atrivuto avatar
+                //aqui se actualiza el atributo avatar
                 userData.avatar = url;
                 resolve(userData);
               },
