@@ -1,36 +1,26 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StyleSheet, Text, View } from "react-native";
-import NavigationApp from "./NavigationApp";
 import firebase from "./config/database";
 import { loadUser } from "./utils/dbUtils";
 import "react-native-gesture-handler";
-import { set } from "react-native-reanimated";
+import Routes from "./navigation/Routes";
 
 export default function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    firebase.auth.onAuthStateChanged((response) => {
-      if(response){
-        loadUser(response.uid)
-        .then((response) => {
-          setUser(response);
+    firebase.auth.onAuthStateChanged((snapshot) => {
+      if (snapshot) {
+        loadUser(snapshot.uid).then((res) => {
+          setUser(res);
+        }).catch(error => { 
+          
         })
-        .catch(() => {
-        });
       }
     });
   }, []);
 
-  return <NavigationApp/>;
+  return <Routes user={user} />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

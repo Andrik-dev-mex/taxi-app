@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   View,
   ScrollView,
@@ -7,8 +7,29 @@ import {
   Image,
 } from "react-native";
 import { Text, Input, Button, Link } from "react-native-elements";
+import firebase from "../config/database";
 
 const LoginScreen = ({ navigation }) => {
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+  const login = () => {
+    firebase.auth
+      .signInWithEmailAndPassword(user.email, user.password)
+      .then(() => {
+      })
+      .catch((error) => {
+      });
+  };
+
+  const handleChange = (name, value) => {
+    setUser({
+      ...user,
+      [name]: value,
+    });
+  };
+
   return (
     <View style={styles.containerBackground}>
       <ImageBackground
@@ -21,15 +42,16 @@ const LoginScreen = ({ navigation }) => {
               <Text h4>Inicio de Sesión</Text>
             </View>
             <View style={styles.input}>
-              <Input placeholder="Correo Electroníco" />
+              <Input placeholder="Correo Electroníco" onChangeText={(value) => {handleChange("email", value)}}/>
             </View>
             <View style={styles.input}>
-              <Input placeholder="Contraseña" />
+              <Input placeholder="Contraseña" onChangeText={(value) => {handleChange("password", value)}}/>
             </View>
             <View style={styles.input}>
               <Button
                 title="Entrar"
                 buttonStyle={{ backgroundColor: "#FF637D" }}
+                onPress={login}
               />
             </View>
             <View style={styles.input}>
